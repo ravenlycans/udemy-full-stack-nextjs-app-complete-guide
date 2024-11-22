@@ -6,6 +6,7 @@ import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import Dashboard from './components/Dashboard.tsx'
 import HeroesList from './components/HeroesList.tsx'
 import HeroDetail from './components/HeroDetail.tsx'
+import { MessageProvider } from './context/MessageContext.tsx'
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>,
+    <MessageProvider>
+      <RouterProvider router={router} />
+    </MessageProvider>
+  </StrictMode>
 )
