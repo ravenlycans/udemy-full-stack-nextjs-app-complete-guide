@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react"
 import { Hero } from "../types/hero";
 import { Link } from "react-router-dom";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export default function Dashboard() {
     const [heroes, setHeroes] = useState<Hero[]>([]);
 
@@ -9,7 +11,7 @@ export default function Dashboard() {
   
     useEffect(() => {
       if (!fetched.current) {
-        fetch("http://localhost:3000/heroes?_limit=4").then(res => {
+        fetch(`${apiUrl}/heroes?_limit=4`).then(res => {
           return res.json();
         }).then(data => {
           setHeroes(data);
