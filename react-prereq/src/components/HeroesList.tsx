@@ -23,6 +23,22 @@ export default function HeroesList() {
         fetched.current = true;
       }
     }, [addMessage]);
+
+    async function deleteHero(hero: Hero) {
+      try {
+        const reponse = await fetch(`${apiUrl}/heroes/${hero.id}`, {
+          method: 'DELETE'
+        });
+
+        if (!reponse.ok) throw new Error('Request failed: ' + reponse.statusText);
+
+        setHeroes(prevHeroes => prevHeroes.filter(h => h.id !== hero.id));
+        addMessage(`Hero ${hero.name} deleted!`);
+      } catch (error) {
+        console.log(error);
+        addMessage('Failed to delete hero.');
+      }
+    }
   
     return (
       <>
@@ -33,8 +49,21 @@ export default function HeroesList() {
         <ul className="flex flex-col gap-2 my-3 border-b pb-2">
           {heroes.map(hero => (
             <Link to={`/heroes/${hero.id}`} key={hero.id} className="flex cursor-pointer">
-              <span className="bg-slate-700 text-white rounded-l p-2">{hero.id}</span>
-              <span className="p-2 bg-slate-300 rounded-r w-full">{hero.name}</span>
+              <span 
+                className="bg-slate-700 text-white rounded-l p-2">
+                  {hero.id}
+              </span>
+              <div className="p-2 bg-slate-300 rounded-r w-full flex justify-between">
+                <span>{hero.name}</span>
+                <span 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    deleteHero(hero);
+                  }}
+                  className="bg-white px-1 pointer-cursor text-red-700">
+                    X
+                </span>
+              </div>
             </Link>
           ))}
         </ul>
