@@ -26,7 +26,10 @@ export default function HeroesList() {
   
     return (
       <>
-        <h2 className="text-2xl">My heroes</h2>
+        <div className="flex gap-3">
+          <h2 className="text-2xl">My heroes</h2>
+          <Link to='/heroes/create' className='btn'>Create New</Link>
+        </div>
         <ul className="flex flex-col gap-2 my-3 border-b pb-2">
           {heroes.map(hero => (
             <Link to={`/heroes/${hero.id}`} key={hero.id} className="flex cursor-pointer">
