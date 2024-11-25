@@ -1,7 +1,21 @@
+'use client';
+
 import { Button, Card, CardBody, CardHeader, Input } from "@nextui-org/react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { GiPadlock } from "react-icons/gi";
 
+type Inputs = {
+    email: string
+    password: string
+}
+
 export default function LoginForm() {
+  const {register, handleSubmit, formState: {errors, isValid}} = useForm<Inputs>();
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    console.log(data);
+  };
+
   return (
     <>
         <Card className="w-2/5 mx-auto">
@@ -15,18 +29,26 @@ export default function LoginForm() {
                 </div>
             </CardHeader>
             <CardBody>
-                <form action="">
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="space-y-4">
                         <Input
+                            defaultValue=""
                             label="Email"
                             variant="bordered"
+                            {...register('email', {required: 'Email is required.'})}
+                            isInvalid={!!errors.email}
+                            errorMessage={errors.email?.message}
                         />
                         <Input
+                            defaultValue=""
                             label="Password"
                             variant="bordered"
                             type="password"
+                            {...register('password', {required: 'Password is required.'})}
+                            isInvalid={!!errors.password}
+                            errorMessage={errors.password?.message}
                         />
-                        <Button fullWidth color="secondary" type="submit">
+                        <Button isDisabled={!isValid} fullWidth color="secondary" type="submit">
                             Login
                         </Button>
                     </div>
