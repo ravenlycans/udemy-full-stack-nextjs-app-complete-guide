@@ -1,6 +1,6 @@
 'use client';
 
-import { signOut } from "@/auth";
+import { signOutUser } from "@/app/actions/authActions";
 import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger } from "@nextui-org/react";
 import { Session } from "next-auth";
 import Link from "next/link";
@@ -10,7 +10,10 @@ type Props = {
 }
 
 export default function UserMenu({user}: Props) {
-  const isDarkMode = window.matchMedia('(prefers-color-scheme: dark').matches;
+  var isDarkMode :boolean = false;
+
+  if (typeof window !== undefined) 
+    isDarkMode = window.matchMedia('(prefers-color-scheme: dark').matches;
 
   return (
     <Dropdown placement='bottom-end' className={isDarkMode ? "dark" : ""}>
@@ -34,7 +37,7 @@ export default function UserMenu({user}: Props) {
             <DropdownItem as={Link} href='/members/edit'>
                 Edit profile
             </DropdownItem>
-            <DropdownItem color='danger' onClick={async () => signOut()}>
+            <DropdownItem color='danger' onClick={async () => signOutUser()}>
                 Log out
             </DropdownItem>
         </DropdownMenu>
