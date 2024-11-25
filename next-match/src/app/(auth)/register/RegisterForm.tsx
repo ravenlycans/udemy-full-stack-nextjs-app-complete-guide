@@ -8,14 +8,27 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { GiPadlock } from "react-icons/gi";
 
 export default function RegisterForm() {
-    const {register, handleSubmit, formState: {errors, isValid}} = useForm<RegisterSchema>({
+    const {register, handleSubmit, formState: {errors, isValid, isSubmitting}, setError} = useForm<RegisterSchema>({
 //        resolver: zodResolver(registerSchema),
         mode: 'onChange'
       });
     
       const onSubmit: SubmitHandler<RegisterSchema> = async (data) => {
         const result = await registerUser(data);
-        console.log(result);
+
+        if (result.status === 'success') {
+            console.log('User Registered Successfully.');
+        } else {
+            if (Array.isArray(result.error)) {
+                result.error.forEach((e) => {
+                    const fieldName = e.path.join(".") as 'email' | 'name' | 'password';
+
+                    setError(fieldName, {message: e.message});
+                });
+            } else {
+                setError('root.serverError', {message: result.error});
+            }
+        }
       };
     
       return (
@@ -58,7 +71,15 @@ export default function RegisterForm() {
                                 isInvalid={!!errors.password}
                                 errorMessage={errors.password?.message}
                             />
-                            <Button isDisabled={!isValid} fullWidth color="secondary" type="submit">
+                            {errors.root?.serverError && (
+                                <p className="text-danger text-sm flex flex-col items-center">{errors.root.serverError.message}</p>
+                            )}
+                            <Button 
+                                isDisabled={!isValid} 
+                                isLoading={isSubmitting}
+                                fullWidth 
+                                color="secondary" 
+                                type="submit">
                                 Register
                             </Button>
                         </div>
