@@ -10,10 +10,10 @@ type Props = {
 }
 
 export default function UserMenu({user}: Props) {
-  var isDarkMode :boolean = false;
+  let isDarkMode :boolean = false;
 
   if (typeof window !== undefined) 
-    isDarkMode = window.matchMedia('(prefers-color-scheme: dark').matches;
+    isDarkMode = window.matchMedia('prefers-color-scheme: dark').matches;
 
   return (
     <Dropdown placement='bottom-end' className={isDarkMode ? "dark" : ""}>
