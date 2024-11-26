@@ -9,6 +9,6 @@ export default async function MemberDetailedPage({params}: {params: {userId: str
   if (!member) return notFound();
 
   return (
-    <div>{member.name}</div>
+    <div className="p-6">{member.name}</div>
   )
 }
