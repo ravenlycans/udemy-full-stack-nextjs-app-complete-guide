@@ -14,7 +14,7 @@ export default function UserMenu({user}: Props) {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   /*
-   * Darkmode client detection code, this runs only on the client, 
+   * Dark-Mode client detection code, this runs only on the client, 
    * due to it being in an useEffect hook.
    * Also supports SSR.
    */
