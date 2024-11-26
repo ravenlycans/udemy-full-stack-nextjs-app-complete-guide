@@ -4,37 +4,19 @@ import { signOutUser } from "@/app/actions/authActions";
 import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger } from "@nextui-org/react";
 import { Session } from "next-auth";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 type Props = {
     user: Session['user']
 }
 
 export default function UserMenu({user}: Props) {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  /*
-   * Dark-Mode client detection code, this runs only on the client, 
-   * due to it being in an useEffect hook.
-   * Also supports SSR.
-   */
-  useEffect(() => {
-    const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
-    setIsDarkMode(mediaQueryList.matches);
-
-    mediaQueryList.addEventListener("change", (mql) => {
-        setIsDarkMode(mql.matches);
-    });
-
-  }, []);
-
   return (
-    <Dropdown placement='bottom-end' className={isDarkMode ? "dark" : ""}>
+    <Dropdown placement='bottom-end'>
         <DropdownTrigger>
             <Avatar
                 isBordered
                 as='button'
-                className={isDarkMode ? "transition-transform dark" : "transition-transform"}
+                className="transition-transform"
                 color='secondary'
                 name={user?.name || 'user avatar'}
                 size='sm'

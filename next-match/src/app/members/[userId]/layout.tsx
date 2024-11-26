@@ -13,7 +13,7 @@ export default async function Layout({
 }) {
   const {userId} = await params;
   const member = await getMemberByUserId(userId);
-
+  
   if (!member) return notFound();
 
   return (
