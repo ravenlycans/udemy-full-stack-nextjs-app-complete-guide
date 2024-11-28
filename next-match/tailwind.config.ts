@@ -15,6 +15,6 @@ export default {
       }
     },
   },
-  darkMode: 'class',
+  darkMode: 'selector',
   plugins: [nextui()],
 } satisfies Config;
