@@ -30,3 +30,50 @@ export async function createMessage(recipientUserId: string, data: MessageSchema
         return {status: 'error', error: 'Something went wrong'}
     }
 }
+
+export async function getMessageThread(recipientId: string) {
+    try {
+        const userId = await getAuthUserId();
+
+        return prisma.message.findMany({
+            where: {
+                OR: [
+                    {
+                        senderId: userId,
+                        recipientId,
+                    },
+                    {
+                        senderId: recipientId,
+                        recipientId: userId,
+                    }
+                ]
+            },
+            orderBy: {
+                createdAt: 'asc'
+            },
+            select: {
+                id: true,
+                text: true,
+                createdAt: true,
+                dateRead: true,
+                sender: {
+                    select: {
+                        userId: true,
+                        name: true,
+                        image: true,
+                    }
+                },
+                recipient: {
+                    select: {
+                        userId: true,
+                        name: true,
+                        image: true,
+                    }
+                }
+            },
+        });
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
