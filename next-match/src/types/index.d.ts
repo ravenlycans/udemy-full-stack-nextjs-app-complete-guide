@@ -33,10 +33,10 @@ type MessageDTO = {
   text: string;
   createdAt: string;
   dateRead: string | null;
-  senderId: string;
-  senderName: string;
+  senderId?: string;
+  senderName?: string;
   senderImage?: string | null;
-  recipientId: string;
-  recipientName: string;
+  recipientId?: string;
+  recipientName?: string;
   recipientImage?: string | null;
 };
