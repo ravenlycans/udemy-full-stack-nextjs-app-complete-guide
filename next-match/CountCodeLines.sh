@@ -1,2 +1,1 @@
-cd ./src/ 
-git ls-files | xargs wc -l
+cloc ./src/
