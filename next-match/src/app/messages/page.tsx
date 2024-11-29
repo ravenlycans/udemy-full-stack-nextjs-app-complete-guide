@@ -7,10 +7,8 @@ export default async function MessagesPage({
 }: {
   searchParams: { container: string };
 }) {
-  const {container} = await searchParams;
+  const { container } = await searchParams;
   const messages = await getMessagesByContainer(container);
-
-  console.log({ messages });
 
   return (
     <div className="grid grid-cols-12 gap-5 h-[80vh] mt-10">
