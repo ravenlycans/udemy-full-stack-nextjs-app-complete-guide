@@ -1,5 +1,6 @@
 import { getMessagesByContainer } from "../actions/messageActions";
 import MessageSidebar from "./MessageSidebar";
+import MessageTable from "./MessageTable";
 
 export default async function MessagesPage({
   searchParams,
@@ -16,7 +17,9 @@ export default async function MessagesPage({
       <div className="col-span-2">
         <MessageSidebar />
       </div>
-      <div className="col-span-10">Message Table Go Here.</div>
+      <div className="col-span-10">
+        <MessageTable messages={messages} />
+      </div>
     </div>
   );
 }
