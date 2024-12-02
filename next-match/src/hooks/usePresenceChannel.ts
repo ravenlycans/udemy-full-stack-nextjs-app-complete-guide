@@ -4,11 +4,7 @@ import {Channel, Members} from "pusher-js";
 import {pusherClient} from "@/lib/pusher";
 
 export const usePresenceChannel = () => {
-    const {set, add, remove} = usePresenceStore(state => ({
-        set: state.set,
-        add: state.add,
-        remove: state.remove
-    }));
+    const {set, add, remove} = usePresenceStore.getState();
 
     const channelRef = useRef<Channel | null>(null);
     const handleSetMembers = useCallback((memberIds: string[]) => {
@@ -39,7 +35,7 @@ export const usePresenceChannel = () => {
         }
 
         return () => {
-            if (channelRef.current) {
+            if (channelRef.current && channelRef.current.subscribed) {
                 channelRef.current.unsubscribe();
 
                 channelRef.current.unbind('pusher:subscription_succeeded');

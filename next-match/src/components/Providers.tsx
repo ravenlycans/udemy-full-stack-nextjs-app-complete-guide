@@ -4,6 +4,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { ReactNode, useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {usePresenceChannel} from "@/hooks/usePresenceChannel";
 
 export default function Providers({ children }: { children: ReactNode }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -21,6 +22,8 @@ export default function Providers({ children }: { children: ReactNode }) {
       setIsDarkMode(mql.matches);
     });
   }, []);
+
+  usePresenceChannel();
 
   return (
     <NextUIProvider className={isDarkMode ? "dark" : ""}>
