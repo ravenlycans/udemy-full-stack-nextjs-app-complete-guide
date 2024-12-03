@@ -7,8 +7,8 @@ import {createChatId} from "@/lib/util";
 
 export default async function ChatPage({params}: {params: {userId: string}}) {
   const userId = await getAuthUserId();
-  const messages = await getMessageThread(params.userId);
-  const chatId = createChatId(userId, params.userId);
+  const messages = await getMessageThread((await params).userId);
+  const chatId = createChatId(userId, (await params).userId);
 
   return (
     <CardInnerWrapper 
