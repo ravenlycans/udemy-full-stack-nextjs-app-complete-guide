@@ -5,6 +5,7 @@ import { MessageDTO } from "@/types";
 import { Avatar } from "@nextui-org/react";
 import clsx from 'clsx';
 import { useEffect, useRef } from "react";
+import PresenceAvatar from "@/components/PresenceAvatar";
 
 type Props = {
   message: MessageDTO;
@@ -22,11 +23,11 @@ export default function MessageBox({ message, currentUserId }: Props) {
     }, [messageEndRef]);
 
     const renderAvatar = () => (
-        <Avatar 
-            name={message.senderName}
-            className="self-end"
-            src={transformImageUrl(message.senderImage) || '/images/user.png'}
-        />
+        <div className="self-end">
+            <PresenceAvatar
+                src={transformImageUrl(message.senderImage) || '/images/user.png'}
+            />
+        </div>
     );
 
     const messageContentClasses = clsx(
