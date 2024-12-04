@@ -14,12 +14,11 @@ import {MessageTableCell} from "@/app/messages/MessageTableCell";
 import { useMessages } from "@/hooks/useMessages";
 
 type Props = {
-  messages: MessageDTO[];
+  initialMessages: MessageDTO[];
 };
 
-export default function MessageTable({ messages }: Props) {
-  const {columns, isOutbox, deleteMessage, selectRow, isDeleting } = useMessages(messages);
-
+export default function MessageTable({ initialMessages }: Props) {
+  const {columns, isOutbox, deleteMessage, selectRow, isDeleting, messages } = useMessages(initialMessages);
 
   return (
     <Card className='flex flex-col gap-3 h-[80vh] overflow-auto'>

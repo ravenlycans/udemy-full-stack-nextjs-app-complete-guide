@@ -1,13 +1,14 @@
 import usePresenceStore from "@/hooks/usePresenceStore";
 import {Member} from "@prisma/client";
 import {GoDot, GoDotFill} from "react-icons/go";
+import {useShallow} from "zustand/react/shallow";
 
 type Props = {
     member: Member;
 }
 
 export default function PresenceDot({member}: Props) {
-    const {members} = usePresenceStore.getState();
+    const [members] = usePresenceStore(useShallow((state) => [state.members]));
 
     const isOnline = members.indexOf(member.userId) !== -1;
 

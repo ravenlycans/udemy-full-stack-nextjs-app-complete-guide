@@ -1,6 +1,7 @@
 import usePresenceStore from "@/hooks/usePresenceStore";
 import {Badge} from "@nextui-org/badge";
 import {Avatar} from "@nextui-org/react";
+import {useShallow} from "zustand/react/shallow";
 
 type Props = {
     userId?: string;
@@ -8,7 +9,7 @@ type Props = {
 }
 
 export default function PresenceAvatar({userId, src}: Props) {
-    const {members} = usePresenceStore.getState();
+    const [members] = usePresenceStore(useShallow((state) => [state.members]));
 
     const isOnline = userId && members.indexOf(userId) !== -1;
 

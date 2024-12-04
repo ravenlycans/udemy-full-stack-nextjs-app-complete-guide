@@ -1,14 +1,25 @@
 import {useRouter, useSearchParams} from "next/navigation";
-import {Key, useCallback, useState} from "react";
+import {Key, useCallback, useEffect, useState} from "react";
 import {MessageDTO} from "@/types";
 import {deleteMessage} from "@/app/actions/messageActions";
+import useMessageStore from "@/hooks/useMessageStore";
+import {useShallow} from "zustand/react/shallow";
 
-export const useMessages = (messages: MessageDTO[]) => {
+export const useMessages = (initialMessages: MessageDTO[]) => {
+    const [set, remove, messages] = useMessageStore(useShallow((state) => [state.set, state.remove, state.messages]));
     const searchParams = useSearchParams();
     const router = useRouter();
     const [isDeleting, setDeleting] = useState({ id: "", loading: false });
 
     const isOutbox = searchParams.get("container") === "outbox";
+
+    useEffect(() => {
+        set(initialMessages);
+
+        return () => {
+            set([]);
+        }
+    }, [initialMessages, set]);
 
     const columns = [
         {
@@ -44,5 +55,6 @@ export const useMessages = (messages: MessageDTO[]) => {
         deleteMessage: handleDeleteMessage,
         selectRow: handleRowSelect,
         isDeleting,
+        messages,
     }
 }

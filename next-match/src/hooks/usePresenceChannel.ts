@@ -2,9 +2,11 @@ import usePresenceStore from "@/hooks/usePresenceStore";
 import {useCallback, useEffect, useRef} from "react";
 import {Channel, Members} from "pusher-js";
 import {pusherClient} from "@/lib/pusher";
+import {useShallow} from "zustand/react/shallow";
 
 export const usePresenceChannel = () => {
-    const {set, add, remove} = usePresenceStore.getState();
+    const [set, add, remove] = usePresenceStore(useShallow(
+        (state) => [state.set, state.add, state.remove]));
 
     const channelRef = useRef<Channel | null>(null);
     const handleSetMembers = useCallback((memberIds: string[]) => {
