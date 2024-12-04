@@ -5,8 +5,9 @@ import { ReactNode, useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {usePresenceChannel} from "@/hooks/usePresenceChannel";
+import {useNotificationChannel} from "@/hooks/useNotificationChannel";
 
-export default function Providers({ children }: { children: ReactNode }) {
+export default function Providers({ children, userId }: { children: ReactNode, userId: string | null }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   /*
@@ -24,6 +25,7 @@ export default function Providers({ children }: { children: ReactNode }) {
   }, []);
 
   usePresenceChannel();
+  useNotificationChannel(userId);
 
   return (
     <NextUIProvider className={isDarkMode ? "dark" : ""}>
