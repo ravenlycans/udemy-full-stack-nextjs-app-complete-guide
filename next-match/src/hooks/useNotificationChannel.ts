@@ -12,16 +12,18 @@ export const useNotificationChannel = (userId: string | null) => {
     const channelRef = useRef<Channel | null>(null);
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    const {add} = useMessageStore(useShallow(
-        (state) => ({add: state.add})));
+    const {add, updateUnreadCount} = useMessageStore(useShallow(
+        (state) => ({add: state.add, updateUnreadCount: state.updateUnreadCount})));
 
     const handleNewMessage = useCallback((message: MessageDTO) => {
         if (pathname === '/messages' && searchParams.get('container') !== 'outbox') {
             add(message);
+            updateUnreadCount(1);
         } else if (pathname !== `/members/${message.senderId}/chat`) {
             newMessageToast(message);
+            updateUnreadCount(1);
         }
-    }, [add, pathname, searchParams]);
+    }, [add, pathname, searchParams, updateUnreadCount]);
 
     useEffect(() => {
         if (!userId) return;

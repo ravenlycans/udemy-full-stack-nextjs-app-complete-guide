@@ -5,16 +5,29 @@ import {pusherClient} from "@/lib/pusher";
 import {MessageDTO} from "@/types";
 import {formatShortDateTime} from "@/lib/util";
 import {Channel} from "pusher-js";
+import {useShallow} from "zustand/react/shallow";
+import useMessageStore from "@/hooks/useMessageStore";
 
 type Props = {
-    initialMessages: MessageDTO[];
+    initialMessages: {messages: MessageDTO[], readCount: number};
     currentUserId: string;
     chatId: string;
 }
 
 export default function MessageList({initialMessages, currentUserId, chatId}: Props) {
     const channelRef = useRef<Channel | null>(null);
-    const [messages, setMessages] = useState(initialMessages);
+    const setReadCount = useRef(false);
+    const [messages, setMessages] = useState(initialMessages.messages);
+    const {updateUnreadCount} = useMessageStore(useShallow(state => ({
+        updateUnreadCount: state.updateUnreadCount,
+    })));
+
+    useEffect(() => {
+        if (!setReadCount.current) {
+            updateUnreadCount(-initialMessages.readCount);
+            setReadCount.current = true;
+        }
+    }, [initialMessages.readCount, updateUnreadCount]);
 
     const handleNewMessage = useCallback((message: MessageDTO) => {
         setMessages(prevState => {
