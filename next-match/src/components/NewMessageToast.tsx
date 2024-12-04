@@ -29,6 +29,8 @@ export function NewMessageToast({message}: Props) {
     );
 }
 
+/*
 export const newMessageToast = (message: MessageDTO) => {
     toast(<NewMessageToast message={message} />);
 }
+*/

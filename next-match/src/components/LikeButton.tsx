@@ -3,6 +3,8 @@
 import { toggleLikeMember } from "@/app/actions/likeActions";
 import { useRouter } from "next/navigation";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import {toast} from "react-toastify";
+import {getMemberByUserId} from "@/app/actions/memberActions";
 
 type Props = {
     targetId: string;
